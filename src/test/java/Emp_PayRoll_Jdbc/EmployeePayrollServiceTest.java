@@ -1,13 +1,15 @@
 package Emp_PayRoll_Jdbc;
 
+import Emp_PayRoll_Jdbc.modal.EmployeePayrollData;
+import Emp_PayRoll_Jdbc.payrollservice.EmployeePayrollService;
+import Emp_PayRoll_Jdbc.payrollservice.EmployeePayrollService.IOService;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import Emp_PayRoll_Jdbc.modal.EmployeePayrollData;
-import Emp_PayRoll_Jdbc.payrollservice.EmployeePayrollService;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class EmployeePayrollServiceTest {
     @Test
@@ -31,5 +33,11 @@ public class EmployeePayrollServiceTest {
         payrollServiceObject.readEmployeeData(EmployeePayrollService.IOService.FILE_IO);
         int countOfEntriesRead = payrollServiceObject.sizeOfEmployeeList();
         Assert.assertEquals(3, countOfEntriesRead);
+    }
+    @Test
+    public void givenEmployeePayrollInDB_WhenRetrieved_ShouldMatchEmployeeCount() {
+        EmployeePayrollService employeePayrollService = new EmployeePayrollService();
+        List<EmployeePayrollData> employeePayrollData = employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+        Assert.assertEquals(5, employeePayrollData.size());
     }
 }
