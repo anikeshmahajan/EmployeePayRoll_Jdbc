@@ -1,6 +1,5 @@
 package Emp_PayRoll_Jdbc.demo;
 
-
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
@@ -10,7 +9,7 @@ public class DBDemo {
     public static void main(String[] args) {
         String jdbcURL = "jdbc:mysql://localhost:3307/payroll_service";
         String userName = "root";
-        String password = "Spider@6426";
+        String password = "Anikesh0725";
         Connection connection;
         try {
             Class.forName("com.mysql.jdbc.Driver");

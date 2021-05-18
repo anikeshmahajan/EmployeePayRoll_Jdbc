@@ -1,14 +1,15 @@
 package Emp_PayRoll_Jdbc.ioservice;
 
-import Emp_PayRoll_Jdbc.modal.EmployeePayrollData;
+
+
+
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
+import Emp_PayRoll_Jdbc.exceptions.DBException;
+import Emp_PayRoll_Jdbc.modal.EmployeePayrollData;
 
 public class EmployeePayrollDBService {
 
@@ -44,5 +45,40 @@ public class EmployeePayrollDBService {
         }
         return employeePayrollData;
     }
-}
 
+    public List<EmployeePayrollData> getEmployeePayrollData(String name) throws DBException {
+        List<EmployeePayrollData> employeePayrollDataList=new ArrayList<>();
+        String sql=String.format("select * from employee_payroll where name='%s';",name);
+        try(Connection connection=getConnection()) {
+            Statement statement=connection.createStatement();
+            ResultSet resultSet=statement.executeQuery(sql);
+            while (resultSet.next()){
+                int id=resultSet.getInt("id");
+                String empName=resultSet.getString("name");
+                double salary=resultSet.getDouble("salary");
+                LocalDate startDate=resultSet.getDate("start").toLocalDate();
+                employeePayrollDataList.add(new EmployeePayrollData(id,empName,salary,startDate));
+            }
+        } catch (SQLException throwables) {
+            throw new DBException("Cannot establish connection",DBException.ExceptionType.CONNECTION_FAIL);
+        }
+        return employeePayrollDataList;
+    }
+
+    public int updateEmployeeData(String name, double salary) {
+        return this.updateEmployeeDataUsingStatement(name,salary);
+    }
+
+    private int updateEmployeeDataUsingStatement(String name, double salary) {
+        String sql=String.format("update employee_payroll set salary = %.2f where name = '%s';",salary,name);
+        try(Connection connection=this.getConnection()) {
+            Statement statement=connection.createStatement();
+            return statement.executeUpdate(sql);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
+
+
+}
