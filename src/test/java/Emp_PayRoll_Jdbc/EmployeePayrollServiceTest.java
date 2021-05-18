@@ -1,5 +1,6 @@
 package Emp_PayRoll_Jdbc;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,4 +42,25 @@ public class EmployeePayrollServiceTest {
         boolean result=employeePayrollService.checkEmployeePayrollInSyncWithDB("Terisa");
         Assert.assertTrue(result);
     }
+
+    @Test
+    public void givenEmployeePayrollInDB_WhenReterivedEmployeeByGivenRange_ShouldReturnEmployeeCount() throws DBException {
+        EmployeePayrollService employeePayrollService=new EmployeePayrollService();
+        employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+        LocalDate startDate=LocalDate.of(2019,01,01);
+        LocalDate endDate=LocalDate.of(2020,01,01);
+        List<EmployeePayrollData> employeePayrollDataList=
+                employeePayrollService.readEmployeeDataWithGivenDateRange(IOService.DB_IO,startDate,endDate);
+        Assert.assertEquals(2,employeePayrollDataList.size());
+    }
+
+    @Test
+    public void givenEmployeePayrollInDB_WhereCOuntBySalary_ShouldReturnEmployeeCount() throws DBException {
+        EmployeePayrollService employeePayrollService=new EmployeePayrollService();
+        employeePayrollService.readEmployeePayrollData(IOService.DB_IO);
+        double salary=3000000.00;
+        int result=employeePayrollService.readEmployeeDataWtihGivenSalary(salary);
+        Assert.assertEquals(3,result);
+    }
+
 }

@@ -1,6 +1,7 @@
 package Emp_PayRoll_Jdbc.payrollservice;
 
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,6 +11,7 @@ import Emp_PayRoll_Jdbc.exceptions.SQLUpdateFailedException;
 import Emp_PayRoll_Jdbc.ioservice.EmployeePayrollDBService;
 import Emp_PayRoll_Jdbc.ioservice.FileIOService;
 import Emp_PayRoll_Jdbc.modal.EmployeePayrollData;
+
 
 
 public class EmployeePayrollService {
@@ -39,6 +41,25 @@ public class EmployeePayrollService {
         if (ioService.equals(IOService.DB_IO))
             this.employeePayrollDataList =employeePayrollDBService.readData();
         return this.employeePayrollDataList;
+    }
+
+
+    public List<EmployeePayrollData> readEmployeeDataWithGivenDateRange(IOService ioService, LocalDate startDate, LocalDate endDate) throws DBException {
+        if (ioService.equals(IOService.DB_IO))
+            this.employeePayrollDataList=employeePayrollDBService.reteriveDate(startDate,endDate);
+        return this.employeePayrollDataList;
+    }
+
+    public int readEmployeeDataWtihGivenSalary(double salary) throws DBException {
+        int result=employeePayrollDBService.reteriveSalary(salary);
+        if (result==0){
+            try {
+                throw new SQLUpdateFailedException("Query is failed.");
+            } catch (SQLUpdateFailedException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 
     public void updateEmployeeSalary(String name, double salary) {
