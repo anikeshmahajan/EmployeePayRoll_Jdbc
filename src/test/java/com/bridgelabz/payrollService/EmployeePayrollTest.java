@@ -58,7 +58,11 @@ public class EmployeePayrollTest {
 	
 	@Test
 	public void givenDateRangeForEmployee_WhenRetrievedUsingStatement_ShouldReturnProperData() throws EmployeePayrollException {
+<<<<<<< HEAD
 		List<EmployeePayrollData> employeeDataInGivenDateRange = employeeFunction.getEmployeesInDateRange("2018-01-01","2021-05-20");
+=======
+		List<EmployeePayrollData> employeeDataInGivenDateRange = employeeFunction.getEmployeesInDateRange("2018-01-01","2019-11-15");
+>>>>>>> Uc2
 		assertEquals(2, employeeDataInGivenDateRange.size());
 	}
 	
