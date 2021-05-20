@@ -108,5 +108,19 @@ public class EmployeePayrollTest {
 		System.out.println("Duration With Thread: "+java.time.Duration.between(start, end));
 	}
 	
-	
+	@Test
+	public void givenEmployeeData_When_UpdatedShouldSyncWithDB() {
+		EmployeePayrollData[] arrayOfEmp = {
+				new EmployeePayrollData(1, "Jeff Bezos", 200000.0),
+				new EmployeePayrollData(2, "Bill Gates", 300000.0),
+				new EmployeePayrollData(3, "Mark Zuckerberg", 400000.0),
+				new EmployeePayrollData(4, "Sundar", 700000.0),
+				new EmployeePayrollData(5, "Mukesh", 800000.0),
+				new EmployeePayrollData(6, "Anil", 900000.0)
+		};
+		Instant start = Instant.now();
+		employeeFunction.updateEmployeeDataUsingThreads(Arrays.asList(arrayOfEmp));
+		Instant end = Instant.now();
+		System.out.println("Duration With Thread: "+java.time.Duration.between(start, end));
+	}
 }
